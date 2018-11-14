@@ -55,7 +55,7 @@
     <img src="img/title-site.png" alt="Code and magick">
   </h1>
   <p class="header-description">
-    Это игра, где главного героя, которым вам предстоит управлять и изменять заклинаниями окружающий мир зовут
+    Это игра, где главного героя, которым вам предстоит управлять и изменять заклинаниями окружающий мир, зовут
     Пендальф Синий.
     Вместе с ним вас ждет увлекательное приключение&hellip;
   </p>
@@ -184,11 +184,7 @@
   var fireballSize = 22;
 
   var getFireballSpeed = function(left) {
-    if (left) {
-      return 5;
-    } else {
-      return 2;
-    }
+    return left ? 5 : 2;
   }
 
   var wizardSpeed = 3;
@@ -200,11 +196,11 @@
   }
 
   var getWizardX = function(width) {
-    return width / 2;
+    return (width - wizardWidth) / 2;
   }
 
   var getWizardY = function(height) {
-    return height * 2 / 3;
+    return height / 3 - getWizardHeight();
   }
 </script>
 <script src="js/game.js"></script>
