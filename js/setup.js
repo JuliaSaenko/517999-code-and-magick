@@ -28,7 +28,7 @@ var createWizard = function () {
 
 var getWizards = function (count) {
   var wizards = [];
-  for (var i = 0; i <= count; i++) {
+  for (var i = 0; i < count; i++) {
     wizards.push(createWizard());
   }
   return wizards;
