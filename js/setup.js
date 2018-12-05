@@ -15,15 +15,6 @@ var wizardEyesInput = document.querySelector('input[name = eyes-color]');
 var wizardFireballInput = document.querySelector('input[name = fireball-color]');
 var setupUserName = setupBlock.querySelector('.setup-user-name');
 
-setupBlockOpen.addEventListener('click', function () {
-  setupBlock.classList.remove('hidden');
-});
-
-setupBlockClose.addEventListener('click', function () {
-  setupBlock.classList.add('hidden');
-});
-
-
 var WIZARD_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
 var WIZARD_SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
 var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
@@ -74,24 +65,28 @@ for (var i = 0; i < wizards.length; i++) {
 }
 similarListElement.appendChild(fragment);
 
+var onInputFocus = function (evt) {
+  if (evt.type === 'focus') {
+    document.removeEventListener('keydown', onPopupEscPress);
+  } else {
+    document.addEventListener('keydown', onPopupEscPress);
+  }
+};
+
 var openPopup = function () {
+  setupBlock.classList.remove('hidden');
   setupBlock.querySelector('.setup-similar').classList.remove('hidden');
   document.addEventListener('keydown', onPopupEscPress);
-
-  setupUserName.addEventListener('focus', function () {
-    document.removeEventListener('keydown', onPopupEscPress);
-  });
-
-  setupUserName.addEventListener('blur', function () {
-    document.addEventListener('keydown', onPopupEscPress);
-  });
-
+  setupUserName.addEventListener('focus', onInputFocus);
+  setupUserName.addEventListener('blur', onInputFocus);
   document.addEventListener('keydown', onPopupEscPress);
 };
 
 var closePopup = function () {
   setupBlock.classList.add('hidden');
-  document.removeEventListener('keydown');
+  document.removeEventListener('keydown', onPopupEscPress);
+  setupUserName.removeEventListener('focus', onInputFocus);
+  setupUserName.removeEventListener('blur', onInputFocus);
 };
 
 var onPopupEscPress = function (evt) {
@@ -134,6 +129,6 @@ wizardEyes.addEventListener('click', function () {
 
 wizardFireball.addEventListener('click', function () {
   var fireballColor = getRandomElementFromArray(FIREBALL_COLORS);
-  wizardFireball.style.fill = fireballColor;
+  wizardFireball.background.fill = fireballColor;
   wizardFireballInput.value = fireballColor;
 });
